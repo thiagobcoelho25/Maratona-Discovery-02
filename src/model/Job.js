@@ -22,6 +22,18 @@ module.exports = {
         await db.run(`UPDATE jobs SET 
         name = "${newJob.name}",
         daily_hours = ${newJob["daily-hours"]},
+        total_hours = ${newJob["total-hours"]} 
+        WHERE id = ${jobId}`)
+
+        await db.close()
+    },
+
+    async updateFull(newJob, jobId) {
+        const db = await Database()
+
+        await db.run(`UPDATE jobs SET 
+        name = "${newJob.name}",
+        daily_hours = ${newJob["daily-hours"]},
         total_hours = ${newJob["total-hours"]},
         created_at = ${newJob.created_at} 
         WHERE id = ${jobId}`)

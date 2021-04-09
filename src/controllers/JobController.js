@@ -38,12 +38,20 @@ module.exports = {
     async update(req, res) {
        const jobId = req.params.id
 
-        const updatedJob = {
+        let updatedJob = {
             name: req.body.name, "total-hours": req.body['total-hours'],
             "daily-hours": req.body['daily-hours']
         }
 
-        await Job.update(updatedJob, jobId)
+
+        if(!req.body.hasOwnProperty('created_at')){
+
+            await Job.update(updatedJob, jobId)
+        } else {
+            updatedJob.created_at = Date.parse("January 1, 1970");
+            
+            await Job.updateFull(updatedJob, jobId)
+        }
 
         res.redirect('/job/' + jobId)
     },
